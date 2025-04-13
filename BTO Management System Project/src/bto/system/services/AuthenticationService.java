@@ -6,7 +6,7 @@ import bto.system.utils.NRICValidator;
 import bto.system.utils.InputValidator;
 
 public class AuthenticationService {
-    public User authenticate(String nric, String password) throws AuthenticationException {
+    public boolean authenticate(String nric, String password) throws AuthenticationException {
         // Validate NRIC format
         if (!NRICValidator.isValidNRIC(nric)) {
             throw new AuthenticationException("Invalid NRIC format");
@@ -19,7 +19,7 @@ public class AuthenticationService {
 
         // In a real system, we would check against hashed passwords
         // This is simplified for the assignment
-        return null; // Actual authentication happens in UserController
+        return true; // Actual authentication happens in UserController
     }
 
     public void validatePassword(String password) throws AuthenticationException {
