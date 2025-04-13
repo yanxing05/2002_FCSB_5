@@ -5,6 +5,7 @@ import bto.system.models.BTOProject;
 import bto.system.models.users.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.*;
 
 public class EnquiryService {
     private List<Enquiry> enquiries;
