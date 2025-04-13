@@ -14,6 +14,7 @@ public class Application {
     private String flatType; // 2-Room or 3-Room
     private LocalDate applicationDate;
     private LocalDate approvalDate;
+    private List<Enquiry> enquiries;
 
     public Application(Applicant applicant, BTOProject project) {
         this.applicationId = IDGenerator.generateApplicationID();
