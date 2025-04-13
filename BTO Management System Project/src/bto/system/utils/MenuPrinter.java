@@ -3,6 +3,7 @@ package bto.system.utils;
 import bto.system.models.BTOProject;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors; 
 
 public class MenuPrinter {
     private static final String HEADER_LINE = "=================================";
