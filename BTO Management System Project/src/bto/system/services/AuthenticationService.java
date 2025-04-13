@@ -6,9 +6,9 @@ import bto.system.utils.NRICValidator;
 import bto.system.utils.InputValidator;
 
 public class AuthenticationService {
-    public boolean authenticate(String nric, String password) throws AuthenticationException {
+    public boolean authenticate(User user, String password) throws AuthenticationException {
         // Validate NRIC format
-        if (!NRICValidator.isValidNRIC(nric)) {
+        if (!NRICValidator.isValidNRIC(user.getNric())) {
             throw new AuthenticationException("Invalid NRIC format");
         }
 
