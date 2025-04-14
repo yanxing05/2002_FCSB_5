@@ -21,6 +21,15 @@ public class HDBManagerView {
         this.applicationController = applicationController;
         this.scanner = scanner;
     }
+        public HDBOfficerView(UserController userController, ProjectController projectController,
+			              ApplicationController applicationController, OfficerController officerController,
+			              Scanner scanner) {
+		this.userController = userController;
+		this.projectController = projectController;
+		this.applicationController = applicationController;
+		this.officerController = officerController;
+		this.scanner = scanner;
+		}
 
     public void displayMenu(HDBManager manager) {
         boolean logout = false;
