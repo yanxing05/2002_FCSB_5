@@ -174,6 +174,7 @@ public class MainView {
                         projectController,
                         applicationController,
                         officerController,
+                        enquiryController,
                         scanner
                 );
                 officerView.displayMenu((HDBOfficer) user);
