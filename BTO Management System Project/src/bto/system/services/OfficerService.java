@@ -4,6 +4,7 @@ import bto.system.models.BTOProject;
 import bto.system.models.users.HDBOfficer;
 import java.util.ArrayList;
 import java.util.List;
+import bto.system.models.Application;
 
 public class OfficerService {
     private List<HDBOfficer> registeredOfficers;
@@ -21,13 +22,28 @@ public class OfficerService {
         return false;
     }
 
-    public boolean processFlatBooking(HDBOfficer officer, String applicationId, String flatType) {
+    public boolean processFlatBooking(HDBOfficer officer, String applicationNric, String flatType) {
         // Implementation for flat booking
+        for(Application app : officer.getAssignedProject().getApplications()){
+            if(app.getApplicantNric().equals(applicationNric)){
+                app.setStatus("Booked");
+                app.setFlatType(flatType);
+                officer.getAssignedProject().reduceFlatCount(flatType);
+            }
+        }
         return true;
     }
 
-    public String generateBookingReceipt(HDBOfficer officer, String applicationId) {
+    public void generateBookingReceipt(HDBOfficer officer, String applicationNric) {
         // Implementation for receipt generation
-        return "Receipt for application: " + applicationId;
+        for(Application app : officer.getAssignedProject().getApplications()){
+            if(app.getApplicantNric().equals(applicationNric)){
+                System.out.println("Name" + app.getApplicant().getName());
+                System.out.println("NRIC " + app.getApplicantNric());
+                System.out.println("Age " + app.getApplicant().getAge());
+                System.out.println("Marital Status " + app.getApplicant().getMaritalStatus());
+                System.out.println("Flat Type " + app.getFlatType());
+            }
+        }
     }
 }
