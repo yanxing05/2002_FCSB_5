@@ -17,6 +17,15 @@ public class ApplicantView {
         this.projectController = projectController;
         this.scanner = scanner;
     }
+    public ApplicantView(UserController userController, ProjectController projectController,
+				         ApplicationController applicationController, EnquiryController enquiryController,
+				         Scanner scanner) {
+		this.userController = userController;
+		this.projectController = projectController;
+		this.applicationController = applicationController;
+		this.enquiryController = enquiryController;
+		this.scanner = scanner;
+	}
 
     public void displayMenu(Applicant applicant) {
         boolean logout = false;
