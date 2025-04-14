@@ -21,15 +21,17 @@ public class HDBManagerView {
         this.applicationController = applicationController;
         this.scanner = scanner;
     }
-        public HDBOfficerView(UserController userController, ProjectController projectController,
-			              ApplicationController applicationController, OfficerController officerController,
-			              Scanner scanner) {
+    public HDBManagerView(UserController userController, ProjectController projectController,
+		            	  ApplicationController applicationController, OfficerController officerController,
+		            	  EnquiryController enquiryController, Scanner scanner) {
 		this.userController = userController;
 		this.projectController = projectController;
 		this.applicationController = applicationController;
 		this.officerController = officerController;
+		this.enquiryController = enquiryController;
 		this.scanner = scanner;
-		}
+	}
+
 
     public void displayMenu(HDBManager manager) {
         boolean logout = false;
