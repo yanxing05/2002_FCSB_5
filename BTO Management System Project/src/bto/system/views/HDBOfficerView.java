@@ -82,8 +82,8 @@ public class HDBOfficerView {
         int project_index = scanner.nextInt();
         officerController.registerForProject(officer, visibleprojects.get(project_index));
     }
-    public String getRegistrationStatus(HDBOfficer officer){
-        return officer.getRegistrationStatus();
+    public void getRegistrationStatus(HDBOfficer officer){
+        System.out.println(officer.getRegistrationStatus());
     }
     public void viewEnquiries(HDBOfficer officer){
         List<Enquiry> enquiries = enquiryController.getEnquiriesForProject(officer.getAssignedProject());
