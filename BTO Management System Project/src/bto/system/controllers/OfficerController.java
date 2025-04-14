@@ -15,11 +15,11 @@ public class OfficerController {
         return officerService.registerOfficer(officer, project);
     }
 
-    public boolean approveFlatBooking(HDBOfficer officer, String applicationId, String flatType) {
-        return officerService.processFlatBooking(officer, applicationId, flatType);
+    public boolean approveFlatBooking(HDBOfficer officer, String applicationNric, String flatType) {
+        return officerService.processFlatBooking(officer, applicationNric, flatType);
     }
 
-    public String generateReceipt(HDBOfficer officer, String applicationId) {
-        return officerService.generateBookingReceipt(officer, applicationId);
+    public void generateReceipt(HDBOfficer officer, String applicationNric) {
+        officerService.generateBookingReceipt(officer, applicationNric);
     }
 }
