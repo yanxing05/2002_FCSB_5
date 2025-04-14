@@ -8,16 +8,18 @@ import java.util.List;
 
 public class Application {
     private String applicationId;
+    private String applicantNric;
     private Applicant applicant;
     private BTOProject project;
     private String status; // Pending, Successful, Unsuccessful, Booked, Withdrawn
     private String flatType; // 2-Room or 3-Room
     private LocalDate applicationDate;
     private LocalDate approvalDate;
-    private List<Enquiry> enquiries;
+    private ArrayList<Enquiry> enquiries;
 
     public Application(Applicant applicant, BTOProject project) {
         this.applicationId = IDGenerator.generateApplicationID();
+        this.applicantNric = applicant.getNric();
         this.applicant = applicant;
         this.project = project;
         this.status = "Pending";
@@ -40,7 +42,9 @@ public class Application {
     public String getApplicationId() {
         return applicationId;
     }
-
+    public String getApplicantNric(){
+        return applicantNric;
+    }
     public Applicant getApplicant() {
         return applicant;
     }
