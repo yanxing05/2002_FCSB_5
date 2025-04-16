@@ -63,6 +63,17 @@ public class Application {
             this.approvalDate = LocalDate.now();
         }
     }
+    public void removeEnquiry(int index) {
+        if (index >= 0 && index < enquiries.size()) {
+            enquiries.remove(index);
+        }
+    }
+    public void editEnquiry(int index, String newMessage) {
+        if (index >= 0 && index < enquiries.size()) {
+            enquiries.get(index).updateMessage(newMessage);
+        }
+    }
+        
 
     public String getFlatType() {
         return flatType;
@@ -83,6 +94,8 @@ public class Application {
     public boolean isActive() {
         return !status.equals("Withdrawn") && !status.equals("Unsuccessful");
     }
+
+    
 
     @Override
     public String toString() {
