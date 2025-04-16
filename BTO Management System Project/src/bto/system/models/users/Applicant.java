@@ -2,6 +2,8 @@ package bto.system.models.users;
 
 import bto.system.models.Application;
 import bto.system.models.BTOProject;
+import bto.system.models.Enquiry;
+import java.util.List;
 
 public class Applicant extends User {
     private Application application;
@@ -40,6 +42,36 @@ public class Applicant extends User {
         if (application != null) {
             application.setStatus("Withdrawn");
             application = null;
+        }
+    }
+
+    public boolean canViewProject(BTOProject project) {
+        return project.isVisible() || (application != null && application.getProject().equals(project));
+    }
+
+    public boolean canBookFlat() {
+        return application != null && application.getStatus().equals("Successful");
+    }
+
+    public List<Enquiry> getEnquiries() {
+        return application != null ? application.getEnquiries() : List.of();
+    }
+
+    public void addEnquiry(Enquiry enquiry) {
+        if (application != null) {
+            application.addEnquiry(enquiry);
+        }
+    }
+
+    public void editEnquiry(int index, String newMessage) {
+        if (application != null && index >= 0 && index < application.getEnquiries().size()) {
+            application.getEnquiries().get(index).updateMessage(newMessage);
+        }
+    }
+
+    public void deleteEnquiry(int index) {
+        if (application != null && index >= 0 && index < application.getEnquiries().size()) {
+            application.getEnquiries().remove(index);
         }
     }
 }
