@@ -16,7 +16,9 @@ public class AuthenticationService {
         if (!InputValidator.isValidPassword(password)) {
             throw new AuthenticationException("Password must be at least 8 characters");
         }
-
+        if (!user.authenticate(password)) {
+            throw new AuthenticationException("Incorrect password");
+        }
         // In a real system, we would check against hashed passwords
         // This is simplified for the assignment
         return true; // Actual authentication happens in UserController
