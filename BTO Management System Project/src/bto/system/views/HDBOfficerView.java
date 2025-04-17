@@ -39,6 +39,7 @@ public class HDBOfficerView {
             System.out.println("4. View enquiries");
             System.out.println("5. Process Booking");
             System.out.println("6. Generate Receipt");
+            System.out.println("7. Change Password");
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
@@ -63,6 +64,15 @@ public class HDBOfficerView {
                     break;
                 case 6:
                     generateReceipt(officer);
+                    break;
+                case 7:
+                    if (changePassword(officer)) {
+                        System.out.println("Password changed successfully. Please login again.");
+                        logout = true;
+                    } else {
+                        System.out.println("Password change failed.");
+                    }
+                    break;
                 case 0:
                     logout = true;
                     break;
@@ -77,10 +87,12 @@ public class HDBOfficerView {
     }
     public void registerForProject(HDBOfficer officer){
         System.out.println("Choose the project to register: ");
-        List<BTOProject> visibleprojects = projectController.getVisibleProjects();
-        System.out.println(visibleprojects);
+        List<BTOProject> projects = projectController.getAllProjects();
+        for(BTOProject project : projects) {
+        	System.out.println("- " + project.getName());
+        }
         int project_index = scanner.nextInt();
-        officerController.registerForProject(officer, visibleprojects.get(project_index));
+        officerController.registerForProject(officer, projects.get(project_index));
     }
     public void getRegistrationStatus(HDBOfficer officer){
         System.out.println(officer.getRegistrationStatus());
@@ -152,7 +164,25 @@ public class HDBOfficerView {
         String enteredNric = scanner.nextLine();
         officerController.generateReceipt(officer, enteredNric);
     }
+    private boolean changePassword(HDBOfficer officer) {
+        System.out.println("\n=== Change Password ===");
+        System.out.print("Enter old password: ");
+        String oldPassword = scanner.nextLine();
+
+        System.out.print("Enter new password (min 8 characters): ");
+        String newPassword = scanner.nextLine();
+
+        try {
+            officer.changePassword(oldPassword, newPassword);
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
+    }
 
 }
+
+
 
 
