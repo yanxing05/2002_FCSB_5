@@ -24,9 +24,11 @@ public class ApplicationService {
 
     public void withdrawApplication(Applicant applicant) {
         Application app = applicant.getApplication();
-        if (app != null) {
-            app.setStatus("Withdrawn");
-            applicant.withdrawApplication(); // sets to null
+        if (app != null && app.isActive()) {
+            app.setStatus("Pending Withdrawal");
+            System.out.println("Your withdrawal request has been submitted and is pending approval.");
+        } else {
+            System.out.println("No active application to withdraw.");
         }
     }
 
