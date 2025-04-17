@@ -92,7 +92,7 @@ public class Application {
     }
 
     public boolean isActive() {
-        return !status.equals("Withdrawn") && !status.equals("Unsuccessful");
+        return !status.equals("Withdrawn") && !status.equals("Unsuccessful") && !status.equals("Booked");
     }
 
     
