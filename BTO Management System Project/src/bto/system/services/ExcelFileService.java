@@ -1,12 +1,11 @@
 package bto.system.services;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import bto.system.exceptions.FileException;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExcelFileService {
@@ -14,57 +13,18 @@ public class ExcelFileService {
     public List<List<String>> readExcelFile(String filePath) throws FileException {
         List<List<String>> data = new ArrayList<>();
 
-        try (FileInputStream fis = new FileInputStream(filePath);
-             Workbook workbook = new XSSFWorkbook(fis)) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
 
-            Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = sheet.iterator();
-
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                List<String> rowData = new ArrayList<>();
-                Iterator<Cell> cellIterator = row.cellIterator();
-
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    rowData.add(getCellValueAsString(cell));
-                }
-
+            while ((line = br.readLine()) != null) {
+                // Split the line by comma and trim each value
+                List<String> rowData = Arrays.asList(line.split(","));
                 data.add(rowData);
             }
         } catch (IOException e) {
-            throw new FileException("Error reading Excel file: " + filePath);
+            throw new FileException("Error reading CSV file: " + filePath, e);
         }
 
         return data;
-    }
-
-    private String getCellValueAsString(Cell cell) {
-        if (cell == null) {
-            return "";
-        }
-
-        switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    return cell.getDateCellValue().toString();
-                } else {
-                    // Check if it's an integer value
-                    double num = cell.getNumericCellValue();
-                    if (num == (int) num) {
-                        return String.valueOf((int) num);
-                    } else {
-                        return String.valueOf(num);
-                    }
-                }
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            case FORMULA:
-                return cell.getCellFormula();
-            default:
-                return "";
-        }
     }
 }
