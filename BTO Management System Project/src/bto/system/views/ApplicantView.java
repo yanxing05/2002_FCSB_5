@@ -37,6 +37,7 @@ public class ApplicantView {
             System.out.println("4. Submit Enquiry");
             System.out.println("5. View/Edit/Delete Enquiries");
             System.out.println("6. Withdraw Application");
+            System.out.println("7. Change Password");
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
@@ -50,6 +51,7 @@ public class ApplicantView {
                 case 4 -> submitEnquiry(applicant);
                 case 5 -> manageEnquiries(applicant);
                 case 6 -> withdrawApplication(applicant);
+                case 7 -> changepassword(applicant);
                 case 0 -> logout = true;
                 default -> System.out.println("Invalid choice.");
             }
@@ -185,5 +187,21 @@ public class ApplicantView {
 
         applicationController.withdrawApplication(applicant);
         System.out.println("Application withdrawn successfully.");
+    }
+    private boolean changePassword(Applicant applicant) {
+        System.out.println("\n=== Change Password ===");
+        System.out.print("Enter old password: ");
+        String oldPassword = scanner.nextLine();
+
+        System.out.print("Enter new password (min 8 characters): ");
+        String newPassword = scanner.nextLine();
+
+        try {
+            applicant.changePassword(oldPassword, newPassword);
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
     }
 }
