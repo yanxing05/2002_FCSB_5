@@ -1,31 +1,34 @@
 package bto.system.utils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 public class DateUtils {
+    private static final DateTimeFormatter EXCEL_FORMAT =
+        DateTimeFormatter.ofPattern("d/M/yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter LONG_FORMAT =
+        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
     public static LocalDate parseDate(String dateStr) {
-        return LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE);
-    }
-    public static LocalDateTime convertToLocalDateTime(String rawDateStr) {
-    	rawDateStr = rawDateStr.trim();
+        dateStr = dateStr.trim();
+
+        // Try Excel style format first
         try {
-            // Check if the string contains a timezone (e.g., GMT, +08:00, etc.)
-            if (rawDateStr.matches(".*[A-Za-z]{3,}|.*\\+\\d{2}:\\d{2}.*")) {
-                DateTimeFormatter zonedFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-                ZonedDateTime zonedDateTime = ZonedDateTime.parse(rawDateStr, zonedFormatter);
-                return zonedDateTime.toLocalDateTime();
-            } else {
-                DateTimeFormatter standardFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                return LocalDateTime.parse(rawDateStr, standardFormatter);
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to parse date string: " + rawDateStr);
-            e.printStackTrace();
-            return null;
-        }
+            return LocalDate.parse(dateStr, EXCEL_FORMAT);
+        } catch (DateTimeParseException ignored) {}
+
+        // Try long format (e.g. "Sat Feb 15 00:00:00 GMT+08:00 2025")
+        try {
+            return ZonedDateTime.parse(dateStr, LONG_FORMAT).toLocalDate();
+        } catch (DateTimeParseException ignored) {}
+
+        // Add more formats if needed...
+
+        // If nothing matches, throw clear exception
+        throw new IllegalArgumentException("Unsupported date format: " + dateStr);
     }
 }
+
