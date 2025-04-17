@@ -33,7 +33,7 @@ public class ExcelFileService {
                 data.add(rowData);
             }
         } catch (IOException e) {
-            throw new FileException("Error reading Excel file: " + filePath, e);
+            throw new FileException("Error reading Excel file: " + filePath);
         }
 
         return data;
