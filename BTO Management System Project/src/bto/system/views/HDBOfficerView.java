@@ -87,7 +87,20 @@ public class HDBOfficerView {
     private void viewAssignedProject(HDBOfficer officer) {
         BTOProject project = officer.getAssignedProject();
 
-        if (project != null) {
+        if (project != null && officer.getRegistrationStatus() == "Pending") {
+            System.out.println("\n=== Applied Project Details === (Pending Approval)");
+            System.out.println("Project ID       : " + project.getProjectId());
+            System.out.println("Name             : " + project.getName());
+            System.out.println("Neighborhood     : " + project.getNeighborhood());
+            System.out.println("Opening Date     : " + project.getOpeningDate());
+            System.out.println("Closing Date     : " + project.getClosingDate());
+            System.out.println("--- Available Flats ---");
+            for (FlatType ft : project.getFlatTypes()) {
+                System.out.println(ft.getType() + " : " + project.getAvailableFlatCount(ft.getType()));
+            }
+            System.out.println("===============================\n");
+        } 
+        else if (project != null && officer.getRegistrationStatus() == "Approved") {
             System.out.println("\n=== Assigned Project Details ===");
             System.out.println("Project ID       : " + project.getProjectId());
             System.out.println("Name             : " + project.getName());
@@ -99,7 +112,8 @@ public class HDBOfficerView {
                 System.out.println(ft.getType() + " : " + project.getAvailableFlatCount(ft.getType()));
             }
             System.out.println("===============================\n");
-        } else {
+        }
+        else {
             System.out.println("No project assigned yet.");
         }
     }
