@@ -105,7 +105,7 @@ public void generateBookingReceipt(HDBOfficer officer, String applicationNric) {
             System.out.println("============================\n");
 
             // Append to existing "Receipt.csv"
-            try (FileWriter fw = new FileWriter("Receipt.csv", true);
+            try (FileWriter fw = new FileWriter("data/ReceiptList.csv", true);
                  PrintWriter pw = new PrintWriter(fw)) {
 
                 // Append data to the CSV (assumes headers already exist)
@@ -120,7 +120,7 @@ public void generateBookingReceipt(HDBOfficer officer, String applicationNric) {
                         app.getApprovalDate().toString()
                 ));
 
-                System.out.println("Booking receipt saved to 'Receipt.csv'.");
+                System.out.println("Booking receipt saved!");
 
             } catch (IOException e) {
                 System.out.println("Error writing to CSV: " + e.getMessage());
