@@ -33,10 +33,19 @@ public class HDBOfficer extends Applicant {
     }
 
     public boolean canRegisterForProject(BTOProject project) {
-        if (assignedProject != null ||
-                (getApplication() != null && getApplication().getProject().equals(project))) {
+        // Officer already assigned to a project
+        if (assignedProject != null) {
+            // If the new project's opening date is before or on the same day as the current project's closing date,
+            // we consider it a conflict.
+            if (!project.getOpeningDate().isAfter(assignedProject.getClosingDate())) {
+                return false;
+            }
+        }
+        // Officer already applied for this project
+        if (getApplication() != null && getApplication().getProject().equals(project)) {
             return false;
         }
+
         return true;
     }
 
