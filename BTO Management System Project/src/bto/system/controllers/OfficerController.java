@@ -14,11 +14,12 @@ public class OfficerController {
     public boolean registerForProject(HDBOfficer officer, BTOProject project) {
         return officerService.registerOfficer(officer, project);
     }
-
+    public boolean withdrawOfficerRegistration(HDBOfficer officer) {
+        return officerService.withdrawOfficerRegistration(officer);
+    }
     public boolean approveFlatBooking(HDBOfficer officer, String applicationNric, String flatType) {
         return officerService.processFlatBooking(officer, applicationNric, flatType);
     }
-
     public void generateReceipt(HDBOfficer officer, String applicationNric) {
         officerService.generateBookingReceipt(officer, applicationNric);
     }
