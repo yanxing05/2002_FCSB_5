@@ -9,8 +9,6 @@ public class Enquiry {
     private BTOProject project;
     private String message;
     private String reply;
-    private LocalDateTime createdAt;
-    private LocalDateTime repliedAt;
     private boolean isResolved;
 
     public Enquiry(User user, BTOProject project, String message) {
@@ -18,7 +16,6 @@ public class Enquiry {
         this.user = user;
         this.project = project;
         this.message = message;
-        this.createdAt = LocalDateTime.now();
         this.isResolved = false;
     }
 
@@ -28,14 +25,11 @@ public class Enquiry {
     public BTOProject getProject() { return project; }
     public String getMessage() { return message; }
     public String getReply() { return reply; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getRepliedAt() { return repliedAt; }
     public boolean isResolved() { return isResolved; }
 
     // Setters
     public void setReply(String reply) {
         this.reply = reply;
-        this.repliedAt = LocalDateTime.now();
     }
 
     public void markAsResolved() {
