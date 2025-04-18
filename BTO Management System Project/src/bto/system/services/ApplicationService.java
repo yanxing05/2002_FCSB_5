@@ -2,7 +2,6 @@ package bto.system.services;
 
 import bto.system.models.Application;
 import bto.system.models.BTOProject;
-import bto.system.models.Enquiry;
 import bto.system.models.users.Applicant;
 
 import java.util.ArrayList;
@@ -40,27 +39,9 @@ public class ApplicationService {
         Application app = applicant.getApplication();
         return app != null && app.isActive();
     }
-
-    public void addEnquiry(Applicant applicant, Enquiry enquiry) {
-        Application app = applicant.getApplication();
-        if (app != null) {
-            app.addEnquiry(enquiry);
-        }
-    }
-
-    public void deleteEnquiry(Applicant applicant, Enquiry enquiry) {
-        Application app = applicant.getApplication();
-        if (app != null) {
-            app.getEnquiries().remove(enquiry); // you could improve this with a custom method
-        }
-    }
-
-    public List<Enquiry> getEnquiries(Applicant applicant) {
-        Application app = applicant.getApplication();
-        return app != null ? app.getEnquiries() : new ArrayList<>();
-    }
-
+    
     public List<Application> getAllApplications() {
         return applications;
     }
+
 }
