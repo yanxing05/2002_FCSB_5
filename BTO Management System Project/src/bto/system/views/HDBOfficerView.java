@@ -275,55 +275,74 @@ public class HDBOfficerView {
         }
     }
     private void submitEnquiry(Applicant applicant) {
-        Application app = applicationController.getApplication(applicant);
-        if (app == null) {
-            System.out.println("You must apply for a project before submitting enquiries.");
+        List<BTOProject> availableProjects = projectController.getAllProjects().stream()
+                .filter(p -> p.isVisible())
+                .toList();
+    
+        if (availableProjects.isEmpty()) {
+            System.out.println("No eligible projects to submit enquiry.");
             return;
         }
-
+    
+        for (int i = 0; i < availableProjects.size(); i++) {
+            System.out.println((i + 1) + ". " + availableProjects.get(i).getName());
+        }
+    
+        System.out.print("Choose a project to submit an enquiry for: ");
+        int choice = scanner.nextInt() - 1;
+        scanner.nextLine();
+    
+        if (choice < 0 || choice >= availableProjects.size()) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+    
+        BTOProject selectedProject = availableProjects.get(choice);
         System.out.print("Enter your enquiry message: ");
         String msg = scanner.nextLine();
-
-        Enquiry enquiry = new Enquiry(applicant, app.getProject(), msg);
-        applicationController.addEnquiry(applicant, enquiry);
-
+    
+        Enquiry enquiry = new Enquiry(applicant, selectedProject, msg);
+        enquiryController.submitEnquiry(applicant, selectedProject, msg);
+    
         System.out.println("Enquiry submitted.");
     }
+    
     private void manageEnquiries(Applicant applicant) {
-        List<Enquiry> enquiries = applicationController.getEnquiries(applicant);
+        List<Enquiry> enquiries = enquiryController.getUserEnquiries(applicant);
+    
         if (enquiries.isEmpty()) {
             System.out.println("No enquiries found.");
             return;
         }
-
+    
         for (int i = 0; i < enquiries.size(); i++) {
             System.out.println((i + 1) + ". " + enquiries.get(i));
         }
-
+    
         System.out.print("Choose an enquiry to manage (or 0 to go back): ");
         int index = scanner.nextInt() - 1;
         scanner.nextLine();
-
+    
         if (index < 0 || index >= enquiries.size()) return;
         Enquiry selected = enquiries.get(index);
-
+    
         System.out.println("1. Edit Message");
         System.out.println("2. Delete Enquiry");
         System.out.println("0. Cancel");
         System.out.print("Choice: ");
-
+    
         int action = scanner.nextInt();
         scanner.nextLine();
-
+    
         switch (action) {
             case 1 -> {
                 System.out.print("Enter new message: ");
                 String newMsg = scanner.nextLine();
-                selected.updateMessage(newMsg);
+                enquiryController.editEnquiry(applicant, selected.getEnquiryId(), newMsg);
                 System.out.println("Message updated.");
             }
             case 2 -> {
-                applicationController.deleteEnquiry(applicant, selected);
+                enquiryController.deleteEnquiry(applicant, selected.getEnquiryId());
                 System.out.println("Enquiry deleted.");
             }
             default -> System.out.println("Action cancelled.");
