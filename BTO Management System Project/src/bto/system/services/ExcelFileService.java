@@ -22,7 +22,7 @@ public class ExcelFileService {
                 data.add(rowData);
             }
         } catch (IOException e) {
-            throw new FileException("Error reading CSV file: " + filePath, e);
+            throw new FileException("Error reading CSV file: " + filePath);
         }
 
         return data;

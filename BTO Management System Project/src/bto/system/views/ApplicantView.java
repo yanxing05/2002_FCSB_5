@@ -1,7 +1,6 @@
 package bto.system.views;
 
 import bto.system.controllers.ApplicationController;
-import bto.system.controllers.EnquiryController;
 import bto.system.controllers.ProjectController;
 import bto.system.controllers.UserController;
 import bto.system.models.Application;
@@ -16,18 +15,15 @@ public class ApplicantView {
     private final UserController userController;
     private final ProjectController projectController;
     private final ApplicationController applicationController;
-    private final EnquiryController enquiryController;
     private final Scanner scanner;
 
     public ApplicantView(UserController userController,
                          ProjectController projectController,
                          ApplicationController applicationController,
-                         EnquiryController enquiryController,
                          Scanner scanner) {
         this.userController = userController;
         this.projectController = projectController;
         this.applicationController = applicationController;
-        this.enquiryController = enquiryController;
         this.scanner = scanner;
     }
 
@@ -49,22 +45,22 @@ public class ApplicantView {
             scanner.nextLine();
 
             switch (choice) {
-                case 1: viewProjects(applicant);
-                case 2: applyForProject(applicant);
-                case 3: viewApplication(applicant);
-                case 4: submitEnquiry(applicant);
-                case 5: manageEnquiries(applicant);
-                case 6: withdrawApplication(applicant);
-                case 7: 
-                if (changePassword(applicant)) {
-                    System.out.println("Password changed successfully. Please login again.");
-                    logout = true;
-                } else {
-                    System.out.println("Password change failed.");
-                }
-                break;
-                case 0: logout = true;
-                default: System.out.println("Invalid choice.");
+                case 1 -> viewProjects(applicant);
+                case 2 -> applyForProject(applicant);
+                case 3 -> viewApplication(applicant);
+                case 4 -> submitEnquiry(applicant);
+                case 5 -> manageEnquiries(applicant);
+                case 6 -> withdrawApplication(applicant);
+                case 7->{
+                    if (changePassword(applicant)) {
+                        System.out.println("Password changed successfully. Please login again.");
+                        logout = true;
+                    } else {
+                        System.out.println("Password change failed.");
+                    }
+                    break;}
+                case 0 -> logout = true;
+                default -> System.out.println("Invalid choice.");
             }
         }
     }
@@ -133,79 +129,61 @@ public class ApplicantView {
     }
 
     private void submitEnquiry(Applicant applicant) {
-        List<BTOProject> availableProjects = projectController.getAllProjects().stream()
-                .filter(p -> p.isVisible())
-                .toList();
-    
-        if (availableProjects.isEmpty()) {
-            System.out.println("No eligible projects to submit enquiry.");
+        Application app = applicationController.getApplication(applicant);
+        if (app == null) {
+            System.out.println("You must apply for a project before submitting enquiries.");
             return;
         }
-    
-        for (int i = 0; i < availableProjects.size(); i++) {
-            System.out.println((i + 1) + ". " + availableProjects.get(i).getName());
-        }
-    
-        System.out.print("Choose a project to submit an enquiry for: ");
-        int choice = scanner.nextInt() - 1;
-        scanner.nextLine();
-    
-        if (choice < 0 || choice >= availableProjects.size()) {
-            System.out.println("Invalid choice.");
-            return;
-        }
-    
-        BTOProject selectedProject = availableProjects.get(choice);
+
         System.out.print("Enter your enquiry message: ");
         String msg = scanner.nextLine();
-    
-        enquiryController.submitEnquiry(applicant, selectedProject, msg);
-    
+
+        Enquiry enquiry = new Enquiry(applicant, app.getProject(), msg);
+        applicationController.addEnquiry(applicant, enquiry);
+
         System.out.println("Enquiry submitted.");
     }
-    
+
     private void manageEnquiries(Applicant applicant) {
-        List<Enquiry> enquiries = enquiryController.getUserEnquiries(applicant);
-    
+        List<Enquiry> enquiries = applicationController.getEnquiries(applicant);
         if (enquiries.isEmpty()) {
             System.out.println("No enquiries found.");
             return;
         }
-    
+
         for (int i = 0; i < enquiries.size(); i++) {
             System.out.println((i + 1) + ". " + enquiries.get(i));
         }
-    
+
         System.out.print("Choose an enquiry to manage (or 0 to go back): ");
         int index = scanner.nextInt() - 1;
         scanner.nextLine();
-    
+
         if (index < 0 || index >= enquiries.size()) return;
         Enquiry selected = enquiries.get(index);
-    
+
         System.out.println("1. Edit Message");
         System.out.println("2. Delete Enquiry");
         System.out.println("0. Cancel");
         System.out.print("Choice: ");
-    
+
         int action = scanner.nextInt();
         scanner.nextLine();
-    
+
         switch (action) {
             case 1 -> {
                 System.out.print("Enter new message: ");
                 String newMsg = scanner.nextLine();
-                enquiryController.editEnquiry(applicant, selected.getEnquiryId(), newMsg);
+                selected.updateMessage(newMsg);
                 System.out.println("Message updated.");
             }
             case 2 -> {
-                enquiryController.deleteEnquiry(applicant, selected.getEnquiryId());
+                applicationController.deleteEnquiry(applicant, selected);
                 System.out.println("Enquiry deleted.");
             }
             default -> System.out.println("Action cancelled.");
         }
     }
-    
 
     private void withdrawApplication(Applicant applicant) {
         Application app = applicationController.getApplication(applicant);
@@ -233,7 +211,4 @@ public class ApplicantView {
             return false;
         }
     }
-    
-    
-
 }

@@ -2,6 +2,7 @@ package bto.system.controllers;
 
 import bto.system.models.Application;
 import bto.system.models.BTOProject;
+import bto.system.models.Enquiry;
 import bto.system.models.users.Applicant;
 import bto.system.services.ApplicationService;
 
@@ -30,6 +31,17 @@ public class ApplicationController {
         return applicationService.hasActiveApplication(applicant);
     }
 
+    public void addEnquiry(Applicant applicant, Enquiry enquiry) {
+        applicationService.addEnquiry(applicant, enquiry);
+    }
+
+    public void deleteEnquiry(Applicant applicant, Enquiry enquiry) {
+        applicationService.deleteEnquiry(applicant, enquiry);
+    }
+
+    public List<Enquiry> getEnquiries(Applicant applicant) {
+        return applicationService.getEnquiries(applicant);
+    }
 
     public List<Application> getAllApplications() {
         return applicationService.getAllApplications();

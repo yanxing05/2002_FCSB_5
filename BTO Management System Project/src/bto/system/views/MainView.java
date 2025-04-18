@@ -162,7 +162,7 @@ public class MainView {
                         userController,
                         projectController,
                         applicationController,
-                        enquiryController,
+                        //enquiryController,
                         scanner
                 );
                 applicantView.displayMenu((Applicant) user);

@@ -1,6 +1,7 @@
 package bto.system.models;
 
 import bto.system.models.users.HDBManager;
+import bto.system.utils.DateUtils;
 import bto.system.utils.IDGenerator;
 import bto.system.models.users.HDBOfficer;
 import java.time.LocalDate;
@@ -38,9 +39,8 @@ public class BTOProject {
             }
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        this.openingDate = LocalDate.parse(openingDateStr.trim(), formatter);
-        this.closingDate = LocalDate.parse(closingDateStr.trim(), formatter);
+        this.openingDate = DateUtils.parseDate(openingDateStr.trim());
+        this.closingDate = DateUtils.parseDate(closingDateStr.trim());
 
         this.manager = manager;
         this.officers = new ArrayList<>();

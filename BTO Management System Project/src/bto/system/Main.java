@@ -52,13 +52,15 @@ import bto.system.services.*;
         import bto.system.models.*;
         import bto.system.models.users.*;
         import bto.system.exceptions.*;
-        import java.util.*;
+
+import java.io.File;
+import java.util.*;
 
 public class Main {
-    private static final String APPLICANT_FILE = "data/ApplicantList.xlsx";
-    private static final String OFFICER_FILE = "data/OfficerList.xlsx";
-    private static final String MANAGER_FILE = "data/ManagerList.xlsx";
-    private static final String PROJECT_FILE = "data/ProjectList.xlsx";
+    private static final String APPLICANT_FILE = "src/bto/system/data/ApplicantList.csv";
+    private static final String OFFICER_FILE = "src/bto/system/data/OfficerList.csv";
+    private static final String MANAGER_FILE = "src/bto/system/data/ManagerList.csv";
+    private static final String PROJECT_FILE = "src/bto/system/data/ProjectList.csv";
 
     public static void main(String[] args) {
         try {
