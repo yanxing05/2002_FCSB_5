@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class UserDataLoader {
-    private final ExcelFileService excelFileService;
+    private final CSVFileService csvFileService;
 
-    public UserDataLoader(ExcelFileService excelFileService) {
-        this.excelFileService = excelFileService;
+    public UserDataLoader(CSVFileService csvFileService) {
+        this.csvFileService = csvFileService;
     }
 
     public List<Applicant> loadApplicants(String filePath) throws FileException {
-        List<List<String>> data = excelFileService.readExcelFile(filePath);
+        List<List<String>> data = csvFileService.readCSVFile(filePath);
         List<Applicant> applicants = new ArrayList<>();
 
         // Skip header row
@@ -34,7 +34,7 @@ public class UserDataLoader {
     }
 
     public List<HDBOfficer> loadOfficers(String filePath) throws FileException {
-        List<List<String>> data = excelFileService.readExcelFile(filePath);
+        List<List<String>> data = csvFileService.readCSVFile(filePath);
         List<HDBOfficer> officers = new ArrayList<>();
 
         // Skip header row
@@ -55,7 +55,7 @@ public class UserDataLoader {
     }
 
     public List<HDBManager> loadManagers(String filePath) throws FileException {
-        List<List<String>> data = excelFileService.readExcelFile(filePath);
+        List<List<String>> data = csvFileService.readCSVFile(filePath);
         List<HDBManager> managers = new ArrayList<>();
 
         // Skip header row
