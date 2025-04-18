@@ -11,6 +11,8 @@ public class DateUtils {
         DateTimeFormatter.ofPattern("d/M/yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter LONG_FORMAT =
         DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter CREATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 
     public static LocalDate parseDate(String dateStr) {
         dateStr = dateStr.trim();
@@ -26,6 +28,9 @@ public class DateUtils {
         } catch (DateTimeParseException ignored) {}
 
         // Add more formats if needed...
+        try {
+            return ZonedDateTime.parse(dateStr, CREATE_FORMAT).toLocalDate();
+        } catch (DateTimeParseException ignored) {}
 
         // If nothing matches, throw clear exception
         throw new IllegalArgumentException("Unsupported date format: " + dateStr);
