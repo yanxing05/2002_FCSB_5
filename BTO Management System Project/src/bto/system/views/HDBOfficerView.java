@@ -188,7 +188,7 @@ public class HDBOfficerView {
     private void viewAssignedProject(HDBOfficer officer) {
         BTOProject project = officer.getAssignedProject();
 
-        if (project != null && officer.getRegistrationStatus() == "Pending") {
+        if (project != null && "Pending".equals(officer.getRegistrationStatus())) {
             System.out.println("\n=== Applied Project Details === (Pending Approval)");
             System.out.println("Project ID       : " + project.getProjectId());
             System.out.println("Name             : " + project.getName());
@@ -201,7 +201,7 @@ public class HDBOfficerView {
             }
             System.out.println("===============================\n");
         } 
-        else if (project != null && officer.getRegistrationStatus() == "Approved") {
+        else if (project != null && "Approved".equals(officer.getRegistrationStatus())) {
             System.out.println("\n=== Assigned Project Details ===");
             System.out.println("Project ID       : " + project.getProjectId());
             System.out.println("Name             : " + project.getName());
