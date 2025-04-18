@@ -33,18 +33,26 @@ public class HDBOfficer extends Applicant {
     }
 
     public boolean canRegisterForProject(BTOProject project) {
-    // Officer already assigned to this project — no need to register again
-    if (assignedProject != null && assignedProject.equals(project)) {
-        return false;
+        // Already assigned to this project
+        if (assignedProject != null && assignedProject.equals(project)) {
+            return false;
+        }
+
+        // Overlap with currently assigned project if already approved
+        if (assignedProject != null 
+            && registrationStatus.equals("Approved") 
+            && !project.getOpeningDate().isAfter(assignedProject.getClosingDate())) {
+            return false;
+        }
+
+        // Officer has applied to this project as an applicant
+        if (getApplication() != null && getApplication().getProject().equals(project)) {
+            return false;
+        }
+
+        return true;
     }
 
-    // Conflict: new project overlaps with currently assigned project
-    if (assignedProject != null && !project.getOpeningDate().isAfter(assignedProject.getClosingDate())) {
-        return false;
-    }
-
-    return true;
-    }
 
 
     public void bookFlatForApplicant(Applicant applicant, String flatType) {
