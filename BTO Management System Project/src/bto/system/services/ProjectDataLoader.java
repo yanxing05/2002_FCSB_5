@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDataLoader {
-    private final ExcelFileService excelFileService;
+    private final CSVFileService csvFileService;
     private final UserService userService;
 
-    public ProjectDataLoader(ExcelFileService excelFileService, UserService userService) {
-        this.excelFileService = excelFileService;
+    public ProjectDataLoader(CSVFileService csvFileService, UserService userService) {
+        this.csvFileService = csvFileService;
         this.userService = userService;
     }
 
     public List<BTOProject> loadProjects(String filePath) throws FileException {
-        List<List<String>> data = excelFileService.readExcelFile(filePath);
+        List<List<String>> data = csvFileService.readCSVFile(filePath);
         List<BTOProject> projects = new ArrayList<>();
 
         // Skip header row
